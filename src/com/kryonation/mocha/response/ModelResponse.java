@@ -1,5 +1,5 @@
 package com.kryonation.mocha.response;
 
-public class MochaResponse {
+public class ModelResponse {
 
 }
