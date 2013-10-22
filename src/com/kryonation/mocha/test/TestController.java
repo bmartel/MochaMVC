@@ -62,6 +62,13 @@ public class TestController extends MochaController{
 		System.out.println("Called: testAction() and the boolean of: " + bool);
 	}
 	
+	/*
+	 * Tests Boolean parameter call
+	 */
+	public void testActionBooleanAndInt(boolean bool, int number){
+		System.out.println("Called: testAction() and the boolean of: " + bool + " and a number: " + number);
+	}
+	
 	
 	/**
 	 * Updates to View (Response from change to Data Model)
@@ -73,9 +80,11 @@ public class TestController extends MochaController{
 		// Get the property for which fired the event from the model
 		
 		System.out.println("Property which was changed: "+evt.getPropertyName());
-		System.out.println("Component to update: "+ registeredComponents.get(evt.getPropertyName()));
+		System.out.println("Component to update: "+ getMainFrame().getView(TestView.class).getViewComponentById(evt.getPropertyName()));
 		
+		updateComponent(getMainFrame().getView(TestView.class).getViewComponentById(evt.getPropertyName()), evt.getNewValue());
 		
+
 	}
 
 	public void updateTestValue(){

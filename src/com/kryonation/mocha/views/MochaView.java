@@ -62,7 +62,10 @@ public abstract class MochaView<C extends JComponent> {
     	componentMap.put(id, component);
     	return (V) component; 
     }
-    
+	@SuppressWarnings("unchecked")
+	public <V extends JComponent> V getViewComponentById(String id){
+		return (V) componentMap.get(id);
+    }
     /**
      * Gets all JComponents in the View
      */

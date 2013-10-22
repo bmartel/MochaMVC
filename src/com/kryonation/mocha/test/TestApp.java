@@ -3,6 +3,8 @@ package com.kryonation.mocha.test;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import static com.kryonation.mocha.factories.MochaFactory.frame;
 
@@ -26,6 +28,15 @@ public class TestApp extends MochaFrame {
 
 	}
 	public static void main(String[]args){
+	     // Set System L&F
+        try {
+			UIManager.setLookAndFeel(
+			    UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
 
             @Override
@@ -39,8 +50,8 @@ public class TestApp extends MochaFrame {
 
 	@Override
 	protected void registerViewComponents() {
-		System.out.println("Registering component: " + getView(TestView.class).getComponentByName("text1"));
-		controllers.get(TestController.class).registerViewComponent("testValue", getView(TestView.class).getComponentByName("text1"));
+		System.out.println("Registering component: " + getView(TestView.class).getComponentByName("testValue"));
+//		controllers.get(TestController.class).registerViewComponent("testValue", getView(TestView.class).getComponentByName("text1"));
 	}
 
 }

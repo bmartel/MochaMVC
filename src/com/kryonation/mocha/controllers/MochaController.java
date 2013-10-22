@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JComponent;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import com.kryonation.mocha.models.MochaModel;
 import com.kryonation.mocha.wireframe.MochaFrame;
@@ -32,10 +34,16 @@ public abstract class MochaController implements PropertyChangeListener {
 	 */
 	protected abstract void registerAllModels();
 	
-	//(String)evt.getPropertyName(), ViewComponent to update 
-	public void registerViewComponent(String id, JComponent viewComponent) {
-		registeredComponents.put(id, viewComponent);
-	}
+//	//(String)evt.getPropertyName(), ViewComponent to update 
+//	protected <V extends JComponent> V registerViewComponent(String id, V component){
+//		registeredComponents.put(id, component);
+//    	return (V) component; 
+//    }
+//	
+//	@SuppressWarnings("unchecked")
+//	protected <V extends JComponent> V getViewComponentById(String id){
+//		return (V) registeredComponents.get(id);
+//    }
 
 	/**
 	 * Returns the bound presenter frame
@@ -58,4 +66,15 @@ public abstract class MochaController implements PropertyChangeListener {
 	 */
 	@Override
 	public abstract void propertyChange(PropertyChangeEvent evt);
+	
+
+	protected <V extends JComponent>V updateComponent(V component, Object newValue){
+		if(component instanceof JTextField){
+			((JTextField) component).setText(newValue.toString());
+		}else if(component instanceof JTextArea){
+			((JTextArea) component).setText(newValue.toString());
+		}
+		return component;
+		
+	}
 }

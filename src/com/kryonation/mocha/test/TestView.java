@@ -23,17 +23,17 @@ public class TestView extends MochaView<JPanel> {
 	@Override
 	protected JPanel layout() {
 //		JPanel panel = new JPanel(new BorderLayout());
-		JTextField text1 = textField(30, true);
+		JTextField text1 = textField(10, true);
 		JPanel buttonBar1 = buttons(
 				registerComponent("button1",button("Void", new MochaActionEvent(this, TestController.class,"testAction", null))),
 				registerComponent("button1",button("Integer", new MochaActionEvent(this, TestController.class,"testActionInt", new Object[]{2}))),
 				registerComponent("button1",button("Boolean", new MochaActionEvent(this, TestController.class,"testActionBoolean", new Object[]{false}))),
-				registerComponent("button1",button("Boolean", new MochaActionEvent(this, TestController.class,"testActionBoolean", new Object[]{false}))),
+				registerComponent("button1",button("Boolean", new MochaActionEvent(this, TestController.class,"testActionBooleanAndInt", new Object[]{false,2}))),
 				registerComponent("button1",button("Boolean", new MochaActionEvent(this, TestController.class,"testActionBoolean", new Object[]{false}))),
 				registerComponent("button1",button("Boolean", new MochaActionEvent(this, TestController.class,"testActionBoolean", new Object[]{false}))),
 				registerComponent("button1",button("Boolean", new MochaActionEvent(this, TestController.class,"testActionBoolean", new Object[]{false})))
 		);
-		buttonBar1.add(registerComponent("text1",text1));
+		buttonBar1.add(registerComponent("testValue",text1));
 		return buttonBar1;
 	}
 
