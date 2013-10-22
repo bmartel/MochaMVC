@@ -18,7 +18,7 @@ public class TestModel extends MochaModel {
 	public void setTestvalue(int testvalue) {
 		int oldTestValue = this.testvalue;
 		this.testvalue = testvalue;
-		System.out.println("Fired property change for testValue");
+		System.out.println("Fired property change for testValue: OldValue => " + oldTestValue + "NewValue => "+this.testvalue);
 		mPropertyChangeSupport.firePropertyChange("testValue",
                 oldTestValue, testvalue);
 	}

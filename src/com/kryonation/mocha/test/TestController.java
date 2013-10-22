@@ -45,12 +45,17 @@ public class TestController extends MochaController{
 	 * Tests Void method calls
 	 */
 	public void updateTestModel(){
-		System.out.println("Called: testAction()");
+		System.out.println("Called: updateTestModel()");
 		JTextField value = getMainFrame().getView(TestView.class).getViewComponentById("testValue");
 		
-		System.out.println("Value in textfield: " + value.getText());
+		
 		TestModel model = (TestModel) models.get(0);
-		model.setTestvalue(45);
+		
+		int intValue = 0;
+		if(!value.getText().equals(""))
+			intValue = Integer.parseInt(value.getText());
+		System.out.println("Value in textfield: " + intValue );
+		model.setTestvalue(intValue);
 	}
 	
 	/*
