@@ -2,6 +2,8 @@ package com.kryonation.mocha.test;
 
 import java.beans.PropertyChangeEvent;
 
+import javax.swing.JTextField;
+
 import com.kryonation.mocha.controllers.MochaController;
 import com.kryonation.mocha.wireframe.MochaFrame;
 
@@ -42,8 +44,11 @@ public class TestController extends MochaController{
 	/*
 	 * Tests Void method calls
 	 */
-	public void testAction(){
+	public void updateTestModel(){
 		System.out.println("Called: testAction()");
+		JTextField value = getMainFrame().getView(TestView.class).getViewComponentById("testValue");
+		
+		System.out.println("Value in textfield: " + value.getText());
 		TestModel model = (TestModel) models.get(0);
 		model.setTestvalue(45);
 	}
@@ -78,7 +83,7 @@ public class TestController extends MochaController{
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		// Get the property for which fired the event from the model
-		
+		System.out.println("");
 		System.out.println("Property which was changed: "+evt.getPropertyName());
 		System.out.println("Component to update: "+ getMainFrame().getView(TestView.class).getViewComponentById(evt.getPropertyName()));
 		

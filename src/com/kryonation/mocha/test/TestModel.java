@@ -22,11 +22,5 @@ public class TestModel extends MochaModel {
 		mPropertyChangeSupport.firePropertyChange("testValue",
                 oldTestValue, testvalue);
 	}
-
-	@Override
-	protected void registerAllPropertyChangeListeners() {
-		
-	}
-	
 	
 }

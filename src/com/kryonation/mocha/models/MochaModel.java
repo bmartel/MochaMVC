@@ -21,8 +21,6 @@ public abstract class MochaModel  {
 		 
 	}
 	
-	protected abstract void registerAllPropertyChangeListeners();
-	
 	/**
 	 * Registers a new controller to handle the property change events
 	 * @param listener
