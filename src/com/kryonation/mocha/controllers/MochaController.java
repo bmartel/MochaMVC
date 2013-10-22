@@ -14,11 +14,13 @@ import com.kryonation.mocha.wireframe.MochaFrame;
 
 /**
  * A controller which provides mediation for MochaFrame presenter, to the MochaView, and updating the associated models with data changes.
- * @author brand_000
+ * @author Brandon Martel
+ * @version Oct-19-2013
  *
  */
 public abstract class MochaController implements PropertyChangeListener {
 	private final MochaFrame frame;
+	@SuppressWarnings("rawtypes")
 	protected final ArrayList<MochaModel> models = new ArrayList<MochaModel>();
 	protected final HashMap<String, JComponent> registeredComponents = new HashMap<String, JComponent>();
 	/**
@@ -57,6 +59,7 @@ public abstract class MochaController implements PropertyChangeListener {
 	 * Setter for model registrations
 	 * @param model
 	 */
+	@SuppressWarnings("rawtypes")
 	protected void registerModel(MochaModel model){
 		models.add(model);
 	}

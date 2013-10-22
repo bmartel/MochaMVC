@@ -3,10 +3,13 @@ package com.kryonation.mocha.test;
 import com.kryonation.mocha.controllers.MochaController;
 import com.kryonation.mocha.models.MochaModel;
 
+@SuppressWarnings("rawtypes")
 public class TestModel extends MochaModel {
 	
+	@SuppressWarnings("unchecked")
 	public TestModel(MochaController controller) {
 		super(controller);
+		System.out.println("TestModel Controller: " + controller.getClass());
 	}
 
 	private int testvalue;

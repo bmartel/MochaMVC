@@ -7,20 +7,22 @@ import com.kryonation.mocha.controllers.MochaController;
 
 /**
  * An abstract Model which handles data binding and change events to associated controllers
- * @author brand_000
- *
+ * @author Brandon Martel
+ * @version Oct-19-2013
  */
-public abstract class MochaModel  {
-	private final MochaController controller;
+public abstract class MochaModel<C extends MochaController>  {
+	private C controller;
 	protected PropertyChangeSupport mPropertyChangeSupport;
 	
-	public MochaModel(MochaController controller){
+
+	public MochaModel(C controller){
 		 mPropertyChangeSupport = new PropertyChangeSupport(this);
 		 this.controller = controller;
 		 addPropertyChangeListener(this.controller);
 		 
 	}
-	
+
+
 	/**
 	 * Registers a new controller to handle the property change events
 	 * @param listener

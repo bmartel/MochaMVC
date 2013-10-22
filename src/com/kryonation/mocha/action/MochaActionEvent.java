@@ -13,8 +13,8 @@ import com.kryonation.mocha.views.MochaView;
 
 /**
  * Event management class which wires view actions to the appropriate controller methods
- * @author brand_000
- *
+ * @author Brandon Martel
+ * @version Oct-19-2013
  * @param <C>
  */
 public class MochaActionEvent<C extends MochaView<? extends JComponent>> implements ActionListener {

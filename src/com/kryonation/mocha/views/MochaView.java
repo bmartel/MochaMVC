@@ -12,7 +12,7 @@ import com.kryonation.mocha.wireframe.MochaFrame;
  * A view which is a panel of nested view JComponents, wires actions to components to a MochaController to update 
  * the associated Model
  * @author Brandon Martel
- *
+ * @version Oct-19-2013
  * @param <C>
  */
 public abstract class MochaView<C extends JComponent> {
