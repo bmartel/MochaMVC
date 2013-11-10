@@ -1,12 +1,14 @@
 package com.kryonation.mocha.test;
 
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import static com.kryonation.mocha.factories.MochaFactory.button;
 import static com.kryonation.mocha.factories.MochaFactory.buttons;
 import static com.kryonation.mocha.factories.MochaFactory.textField;
+import static com.kryonation.mocha.factories.MochaFactory.label;
 
 import com.kryonation.mocha.action.MochaActionEvent;
 import com.kryonation.mocha.views.MochaView;
@@ -24,6 +26,7 @@ public class TestView extends MochaView<JPanel> {
 	protected JPanel layout() {
 //		JPanel panel = new JPanel(new BorderLayout());
 		JTextField text1 = textField(10, true);
+		JLabel text2 = label("", null);
 		JPanel buttonBar1 = buttons(
 				registerComponent("button1",button("Void", new MochaActionEvent(this, "TestController/updateTestModel", null)))
 //				registerComponent("button1",button("Integer", new MochaActionEvent(this, TestController.class,"testActionInt", new Object[]{2}))),
@@ -34,6 +37,7 @@ public class TestView extends MochaView<JPanel> {
 //				registerComponent("button1",button("Boolean", new MochaActionEvent(this, TestController.class,"testActionBoolean", new Object[]{false})))
 		);
 		buttonBar1.add(registerComponent("testValue",text1));
+		buttonBar1.add(registerComponent("testResult",text2));
 		return buttonBar1;
 	}
 

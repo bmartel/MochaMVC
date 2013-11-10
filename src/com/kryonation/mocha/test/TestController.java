@@ -16,7 +16,7 @@ public class TestController extends MochaController{
 	
 	@Override
 	protected void registerAllModels() {
-		registerModel(new TestModel(this));
+		registerModel("TestModel", new TestModel(this));
 	}
 
 	/**
@@ -46,16 +46,15 @@ public class TestController extends MochaController{
 	 */
 	public void updateTestModel(){
 		System.out.println("Called: updateTestModel()");
-		JTextField value = getMainFrame().getView(TestView.class).getViewComponentById("testValue");
-		
-		
-		TestModel model = (TestModel) models.get(0);
+		JTextField textComponent = getMainFrame().getViewByComponentId("testValue").getViewComponentById("testValue");
 		
 		int intValue = 0;
-		if(!value.getText().equals(""))
-			intValue = Integer.parseInt(value.getText());
+		if(!textComponent.getText().equals(""))
+			intValue = Integer.parseInt(textComponent.getText());
 		System.out.println("Value in textfield: " + intValue );
-		model.setTestvalue(intValue);
+		
+		//Update the model
+		((TestModel) getModelById("TestModel")).setTestvalue(intValue);
 	}
 	
 	/*

@@ -2,10 +2,11 @@ package com.kryonation.mocha.controllers;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -18,10 +19,11 @@ import com.kryonation.mocha.wireframe.MochaFrame;
  * @version Oct-19-2013
  *
  */
+
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public abstract class MochaController implements PropertyChangeListener {
 	private final MochaFrame frame;
-	@SuppressWarnings("rawtypes")
-	protected final ArrayList<MochaModel> models = new ArrayList<MochaModel>();
+	protected final Map<String, MochaModel> models = new HashMap<String, MochaModel>();
 	protected final HashMap<String, JComponent> registeredComponents = new HashMap<String, JComponent>();
 	/**
 	 * Registers the presenter frame
@@ -36,17 +38,6 @@ public abstract class MochaController implements PropertyChangeListener {
 	 */
 	protected abstract void registerAllModels();
 	
-//	//(String)evt.getPropertyName(), ViewComponent to update 
-//	protected <V extends JComponent> V registerViewComponent(String id, V component){
-//		registeredComponents.put(id, component);
-//    	return (V) component; 
-//    }
-//	
-//	@SuppressWarnings("unchecked")
-//	protected <V extends JComponent> V getViewComponentById(String id){
-//		return (V) registeredComponents.get(id);
-//    }
-
 	/**
 	 * Returns the bound presenter frame
 	 * @return MochaFrame
@@ -59,11 +50,18 @@ public abstract class MochaController implements PropertyChangeListener {
 	 * Setter for model registrations
 	 * @param model
 	 */
-	@SuppressWarnings("rawtypes")
-	protected void registerModel(MochaModel model){
-		models.add(model);
+	protected <C extends MochaModel> void registerModel(String modelName, C model){
+		models.put(modelName,model);
 	}
 
+	/**
+	 * Get a registered model by its registered tag id
+	 * @param modelName
+	 * @return
+	 */
+	protected <C extends MochaModel> C getModelById(String modelName){
+		return (C) models.get(modelName);
+	}
 	/**
 	 * Updates registered view components with new data
 	 */
@@ -79,12 +77,19 @@ public abstract class MochaController implements PropertyChangeListener {
 		
 	}
 	
-
+	/**
+	 * Update the bound component using the best known way to display the data for each element
+	 * @param component
+	 * @param newValue
+	 * @return
+	 */
 	protected <V extends JComponent>V updateComponent(V component, Object newValue){
 		if(component instanceof JTextField){
 			((JTextField) component).setText(newValue.toString());
 		}else if(component instanceof JTextArea){
 			((JTextArea) component).setText(newValue.toString());
+		}else if(component instanceof JLabel){
+			((JLabel) component).setText(newValue.toString());
 		}
 		return component;
 		
