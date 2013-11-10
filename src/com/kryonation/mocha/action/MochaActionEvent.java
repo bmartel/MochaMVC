@@ -38,6 +38,7 @@ public class MochaActionEvent<C extends MochaView<? extends JComponent>> impleme
 		actionView = (C) view;
 		obj = actionView.getMainFrame().getController(controllerClass);
 		
+		// For debug only
 		if(obj == null){
 			System.out.println("ActionView: "+ actionView.toString());
 			System.out.println("ActionController: "+ controllerClass);
@@ -45,6 +46,7 @@ public class MochaActionEvent<C extends MochaView<? extends JComponent>> impleme
 			System.out.println("MochaController not found");
 		}
 		
+		// Create the class with or without parameters
 		if(params == null){
 			cls = new Class[]{};
 		}else{
@@ -54,12 +56,14 @@ public class MochaActionEvent<C extends MochaView<? extends JComponent>> impleme
 			}
 		}
 		
+		// Set the arguments of the class to any passed in parameters
 		args = params;
 		
+		// Attempt to build the method from the declared action and class structure
 		try {
 			method = controllerClass.getDeclaredMethod(actionName,cls);
 		} catch (NoSuchMethodException | SecurityException e) {
-			e.printStackTrace();
+			e.printStackTrace(); // For debug only
 		}
 	}
 

@@ -22,7 +22,9 @@ public abstract class MochaFrame {
     protected final JFrame frame;
     protected final Map<Class<? extends MochaView<? extends JComponent>>, MochaView<? extends JComponent>> views = new HashMap<Class<? extends MochaView<? extends JComponent>>, MochaView<? extends JComponent>>();
     protected final Map<Class<? extends MochaController>, MochaController> controllers = new HashMap<Class<? extends MochaController>, MochaController>();
-
+    protected final Map<String, Class<? extends MochaView<? extends JComponent>>> viewMap = new HashMap<String, Class<? extends MochaView<? extends JComponent>>>();
+    protected final Map<String, Class<? extends MochaController>> controllerMap = new HashMap<String, Class<? extends MochaController>>();
+    
     public MochaFrame() {
     	registerAllControllers();
         registerAllViews();
@@ -64,7 +66,29 @@ public abstract class MochaFrame {
     }
     
     /**
-     * 
+     * Helper method for registering a controller to the app
+     * @param controllerName
+     * @param controllerClass
+     * @param controller
+     */
+    public <C extends MochaController> void registerController(String controllerName, Class<C> controllerClass, C controller){
+    	controllerMap.put(controllerName, controllerClass);
+    	controllers.put(controllerClass, controller);
+    }
+    
+    /**
+     * Helper method for registering a view to the app
+     * @param viewName
+     * @param viewClass
+     * @param view
+     */
+    public <V extends MochaView<? extends JComponent>> void registerView(String viewName, Class<V> viewClass, V view){
+    	viewMap.put(viewName, viewClass);
+    	views.put(viewClass, view);
+    }
+    
+    /**
+     * Retrieves view by its class reference
      * @param viewClass
      * @return Typed view, using reflection
      */
@@ -74,7 +98,7 @@ public abstract class MochaFrame {
     }
     
     /**
-     * 
+     * Retrieves controller by its class reference
      * @param controllerClass
      * @return Typed controller, using reflection
      */
@@ -83,4 +107,23 @@ public abstract class MochaFrame {
         return (C) controllers.get(controllerClass);
     }
 
+    /**
+     * Retrieves view by its tagged name
+     * @param view
+     * @return Typed view, using reflection
+     */
+    @SuppressWarnings("unchecked")
+    public <V extends MochaView<? extends JComponent>> V getViewByName(String view) {
+        return (V) views.get(viewMap.get(view));
+    }
+    
+    /**
+     * Retrieves the controller by its tagged name
+     * @param controller
+     * @return Typed controller, using reflection
+     */
+    @SuppressWarnings("unchecked")
+    public <C extends MochaController> C getControllerByName(String controller) {
+        return (C) controllers.get(controllerMap.get(controller));
+    }
 }
