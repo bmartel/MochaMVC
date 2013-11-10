@@ -20,11 +20,61 @@ import com.kryonation.mocha.views.MochaView;
 public class MochaActionEvent<C extends MochaView<? extends JComponent>> implements ActionListener {
 	public final HashMap<Class<?>, Object> classMap;
 	private final C actionView;
+	private String controllerTag;
+	private String actionTag;
 	private Object obj;
 	private Method method;
 	private Object[] args;
 	private Class<?>[] cls;
 
+	/**
+	 * Instantiates an actionevent which contracts a controller and view using a route
+	 * @param view
+	 * @param route
+	 * @param params
+	 */
+	@SuppressWarnings({ "unchecked" })
+	public MochaActionEvent(MochaView<? extends JComponent> view, String route, Object[] params){
+		classMap = getWrapperTypes();
+		actionView = (C) view;
+		
+		controllerTag = route.split("/")[0];
+		actionTag = route.split("/")[1];
+		System.out.println("Controller bound: "+ controllerTag + " using action: " + actionTag);
+		Class<? extends MochaController> controllerClass = actionView.getMainFrame().getControllerClass(controllerTag);
+		
+		obj = actionView.getMainFrame().getControllerByName(controllerTag);
+		
+		// For debug only
+		if(obj == null){
+			System.out.println("ActionView: "+ actionView.toString());
+			System.out.println("ActionController: "+ actionView.getMainFrame().getControllerClass(controllerTag));
+			System.out.println("Presenter Frame: "+ actionView.getMainFrame().toString());
+			System.out.println("MochaController not found");
+		}
+		
+		// Create the class with or without parameters
+		if(params == null){
+			cls = new Class[]{};
+		}else{
+			cls = new Class<?>[params.length];
+			for(int i=0; i< params.length; i++){
+				cls[i] = (Class<?>) findTypeByClass(params[i].getClass());
+			}
+		}
+		
+		// Set the arguments of the class to any passed in parameters
+		args = params;
+		
+		// Attempt to build the method from the declared action and class structure
+		try {
+			method = controllerClass.getDeclaredMethod(actionTag,cls);
+		} catch (NoSuchMethodException | SecurityException e) {
+			System.out.println("Method was not found");
+			e.printStackTrace(); // For debug only
+		}
+	}
+	
 	/**
 	 * Creates the action event, binding it to a controller class method call
 	 * @param view

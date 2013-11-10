@@ -68,7 +68,16 @@ public abstract class MochaController implements PropertyChangeListener {
 	 * Updates registered view components with new data
 	 */
 	@Override
-	public abstract void propertyChange(PropertyChangeEvent evt);
+	public void propertyChange(PropertyChangeEvent evt){
+		// Get the property for which fired the event from the model
+		System.out.println("Class which property has changed " + evt.getSource());
+		
+		System.out.println("Property which was changed: "+evt.getPropertyName());
+		System.out.println("Component to update: "+ getMainFrame().getViewByComponentId(evt.getPropertyName()).getViewComponentById(evt.getPropertyName()));
+		
+		updateComponent(getMainFrame().getViewByComponentId(evt.getPropertyName()).getViewComponentById(evt.getPropertyName()), evt.getNewValue());
+		
+	}
 	
 
 	protected <V extends JComponent>V updateComponent(V component, Object newValue){

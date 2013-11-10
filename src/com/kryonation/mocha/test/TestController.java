@@ -87,13 +87,7 @@ public class TestController extends MochaController{
 	
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		// Get the property for which fired the event from the model
-		System.out.println("");
-		System.out.println("Property which was changed: "+evt.getPropertyName());
-		System.out.println("Component to update: "+ getMainFrame().getView(TestView.class).getViewComponentById(evt.getPropertyName()));
-		
-		updateComponent(getMainFrame().getView(TestView.class).getViewComponentById(evt.getPropertyName()), evt.getNewValue());
-		
+		super.propertyChange(evt);
 
 	}
 

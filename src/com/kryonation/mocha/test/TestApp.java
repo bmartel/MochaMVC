@@ -14,19 +14,19 @@ public class TestApp extends MochaFrame {
 
 	@Override
 	protected void registerAllViews() {
-		views.put(TestView.class, new TestView(this));		
+		registerView("TestView", TestView.class, new TestView(this));		
 	}
 
 	@Override
 	protected void registerAllControllers() {
-		controllers.put(TestController.class, new TestController(this));		
+		registerController("TestController", TestController.class, new TestController(this));	
 	}
 
 	@Override
 	protected JFrame layout() {
 		return frame("Demo MochaMVC Framework", getView(TestView.class).getContentPane(), null, new Dimension(800,600));
-
 	}
+	
 	public static void main(String[]args){
 	     // Set System L&F
         try {

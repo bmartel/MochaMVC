@@ -118,6 +118,19 @@ public abstract class MochaFrame {
     }
     
     /**
+     * Retrieves view by its child component
+     * @param viewComponent
+     * @return Typed view, using reflection
+     */
+    @SuppressWarnings("unchecked")
+    public <V extends MochaView<? extends JComponent>> V getViewByComponentId(String viewComponent) {
+        for (MochaView<? extends JComponent> view : views.values()) {
+			if(view.getViewComponentById(viewComponent) != null){ return (V) view;}
+		}
+    	return null;
+    }
+    
+    /**
      * Retrieves the controller by its tagged name
      * @param controller
      * @return Typed controller, using reflection
@@ -125,5 +138,23 @@ public abstract class MochaFrame {
     @SuppressWarnings("unchecked")
     public <C extends MochaController> C getControllerByName(String controller) {
         return (C) controllers.get(controllerMap.get(controller));
+    }
+    
+    /**
+     * Get the controller class by its tag name
+     * @param controller
+     * @return
+     */
+    public Class<? extends MochaController> getControllerClass(String controller){
+    	return controllerMap.get(controller);
+    }
+    
+    /**
+     * Get the view class by its tag name
+     * @param view
+     * @return
+     */
+    public Class<? extends MochaView<? extends JComponent>> getViewClass(String view){
+    	return viewMap.get(view);
     }
 }
