@@ -22,7 +22,6 @@ public abstract class MochaModel<C extends MochaController>  {
 		 
 	}
 
-
 	/**
 	 * Registers a new controller to handle the property change events
 	 * @param listener
