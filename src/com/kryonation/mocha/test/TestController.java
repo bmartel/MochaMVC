@@ -46,7 +46,7 @@ public class TestController extends MochaController{
 	 */
 	public void updateTestModel(){
 		System.out.println("Called: updateTestModel()");
-		JTextField textComponent = getMainFrame().getViewByComponentId("testValue").getViewComponentById("testValue");
+		JTextField textComponent = getMainFrame().getParentView("testValue").getComponentById("testValue");
 		
 		int intValue = 0;
 		if(!textComponent.getText().equals(""))

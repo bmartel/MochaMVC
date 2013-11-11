@@ -123,9 +123,9 @@ public abstract class MochaFrame {
      * @return Typed view, using reflection
      */
     @SuppressWarnings("unchecked")
-    public <V extends MochaView<? extends JComponent>> V getViewByComponentId(String viewComponent) {
+    public <V extends MochaView<? extends JComponent>> V getParentView(String viewComponent) {
         for (MochaView<? extends JComponent> view : views.values()) {
-			if(view.getViewComponentById(viewComponent) != null){ return (V) view;}
+			if(view.getComponentById(viewComponent) != null){ return (V) view;}
 		}
     	return null;
     }

@@ -71,9 +71,9 @@ public abstract class MochaController implements PropertyChangeListener {
 		System.out.println("Class which property has changed " + evt.getSource());
 		
 		System.out.println("Property which was changed: "+evt.getPropertyName());
-		System.out.println("Component to update: "+ getMainFrame().getViewByComponentId(evt.getPropertyName()).getViewComponentById(evt.getPropertyName()));
+		System.out.println("Component to update: "+ getMainFrame().getParentView(evt.getPropertyName()).getComponentById(evt.getPropertyName()));
 		
-		updateComponent(getMainFrame().getViewByComponentId(evt.getPropertyName()).getViewComponentById(evt.getPropertyName()), evt.getNewValue());
+		updateComponent(getMainFrame().getParentView(evt.getPropertyName()).getComponentById(evt.getPropertyName()), evt.getNewValue());
 		
 	}
 	
