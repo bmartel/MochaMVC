@@ -20,10 +20,10 @@ import com.kryonation.mocha.views.MochaView;
  */
 public abstract class MochaFrame {
     protected final JFrame frame;
-    protected final Map<Class<? extends MochaView<? extends JComponent>>, MochaView<? extends JComponent>> views = new HashMap<Class<? extends MochaView<? extends JComponent>>, MochaView<? extends JComponent>>();
-    protected final Map<Class<? extends MochaController>, MochaController> controllers = new HashMap<Class<? extends MochaController>, MochaController>();
-    protected final Map<String, Class<? extends MochaView<? extends JComponent>>> viewMap = new HashMap<String, Class<? extends MochaView<? extends JComponent>>>();
-    protected final Map<String, Class<? extends MochaController>> controllerMap = new HashMap<String, Class<? extends MochaController>>();
+    protected final Map<Class<? extends MochaView<? extends JComponent>>, MochaView<? extends JComponent>> views = new HashMap<>();
+    protected final Map<Class<? extends MochaController>, MochaController> controllers = new HashMap<>();
+    protected final Map<String, Class<? extends MochaView<? extends JComponent>>> viewMap = new HashMap<>();
+    protected final Map<String, Class<? extends MochaController>> controllerMap = new HashMap<>();
     
     public MochaFrame() {
     	registerAllControllers();
@@ -129,7 +129,16 @@ public abstract class MochaFrame {
 		}
     	return null;
     }
-    
+
+    /**
+     * Retrieves the registered component by id
+     * @param id
+     * @param <V>
+     * @return
+     */
+    public <V extends JComponent> V getComponentById(String id){
+        return (V) this.getParentView(id).getComponentById(id);
+    }
     /**
      * Retrieves the controller by its tagged name
      * @param controller

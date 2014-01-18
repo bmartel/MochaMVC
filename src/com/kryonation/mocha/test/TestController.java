@@ -16,7 +16,7 @@ public class TestController extends MochaController{
 	
 	@Override
 	protected void registerAllModels() {
-		registerModel("TestModel", new TestModel(this));
+		bindModel("TestModel", new TestModel(this));
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class TestController extends MochaController{
 	 */
 	public void updateTestModel(){
 		System.out.println("Called: updateTestModel()");
-		JTextField textComponent = getMainFrame().getParentView("testValue").getComponentById("testValue");
+		JTextField textComponent = getMainFrame().getComponentById("testValue");
 		
 		int intValue = 0;
 		if(!textComponent.getText().equals(""))
@@ -77,23 +77,5 @@ public class TestController extends MochaController{
 	public void testActionBooleanAndInt(boolean bool, int number){
 		System.out.println("Called: testAction() and the boolean of: " + bool + " and a number: " + number);
 	}
-	
-	
-	/**
-	 * Updates to View (Response from change to Data Model)
-	 * ===================================================
-	 */
-	
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		super.propertyChange(evt);
-
-	}
-
-	public void updateTestValue(){
-		
-	}
-
-
 
 }

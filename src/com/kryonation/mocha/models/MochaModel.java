@@ -4,13 +4,14 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 import com.kryonation.mocha.controllers.MochaController;
+import com.kryonation.mocha.interfaces.DataContainer;
 
 /**
  * An abstract Model which handles data binding and change events to associated controllers
  * @author Brandon Martel
  * @version Oct-19-2013
  */
-public abstract class MochaModel<C extends MochaController>  {
+public abstract class MochaModel<C extends MochaController> implements DataContainer {
 	private C controller;
 	protected PropertyChangeSupport mPropertyChangeSupport;
 	

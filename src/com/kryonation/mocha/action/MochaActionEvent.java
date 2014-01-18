@@ -1,4 +1,5 @@
 package com.kryonation.mocha.action;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
@@ -8,6 +9,9 @@ import java.util.Map;
 
 import javax.swing.JComponent;
 
+import com.kryonation.mocha.Exceptions.ControllerNotFoundException;
+import com.kryonation.mocha.Exceptions.InvalidArgumentException;
+import com.kryonation.mocha.Exceptions.MethodNotFoundException;
 import com.kryonation.mocha.controllers.MochaController;
 import com.kryonation.mocha.views.MochaView;
 
@@ -17,7 +21,7 @@ import com.kryonation.mocha.views.MochaView;
  * @version Oct-19-2013
  * @param <C>
  */
-public class MochaActionEvent<C extends MochaView<? extends JComponent>> implements ActionListener {
+public class MochaActionEvent<C extends MochaView<? extends JComponent>> implements ActionListener{
 	public final HashMap<Class<?>, Object> classMap;
 	private final C actionView;
 	private String controllerTag;
@@ -26,6 +30,7 @@ public class MochaActionEvent<C extends MochaView<? extends JComponent>> impleme
 	private Method method;
 	private Object[] args;
 	private Class<?>[] cls;
+    private String splitChar = "\\.";
 
 	/**
 	 * Instantiates an actionevent which contracts a controller and view using a route
@@ -38,19 +43,15 @@ public class MochaActionEvent<C extends MochaView<? extends JComponent>> impleme
 		classMap = getWrapperTypes();
 		actionView = (C) view;
 		
-		controllerTag = route.split("/")[0];
-		actionTag = route.split("/")[1];
-		System.out.println("Controller bound: "+ controllerTag + " using action: " + actionTag);
+		controllerTag = route.split(splitChar)[0];
+		actionTag = route.split(splitChar)[1];
+
 		Class<? extends MochaController> controllerClass = actionView.getMainFrame().getControllerClass(controllerTag);
 		
 		obj = actionView.getMainFrame().getControllerByName(controllerTag);
-		
-		// For debug only
+
 		if(obj == null){
-			System.out.println("ActionView: "+ actionView.toString());
-			System.out.println("ActionController: "+ actionView.getMainFrame().getControllerClass(controllerTag));
-			System.out.println("Presenter Frame: "+ actionView.getMainFrame().toString());
-			System.out.println("MochaController not found");
+			throw new ControllerNotFoundException("Could not find controller with name: " + controllerTag);
 		}
 		
 		// Create the class with or without parameters
@@ -70,8 +71,7 @@ public class MochaActionEvent<C extends MochaView<? extends JComponent>> impleme
 		try {
 			method = controllerClass.getDeclaredMethod(actionTag,cls);
 		} catch (NoSuchMethodException | SecurityException e) {
-			System.out.println("Method was not found");
-			e.printStackTrace(); // For debug only
+            throw new InvalidArgumentException("Invalid arguments passed to method " + method.getName() + ", cannot invoke target.");
 		}
 	}
 	
@@ -87,13 +87,9 @@ public class MochaActionEvent<C extends MochaView<? extends JComponent>> impleme
 		classMap = getWrapperTypes();
 		actionView = (C) view;
 		obj = actionView.getMainFrame().getController(controllerClass);
-		
-		// For debug only
+
 		if(obj == null){
-			System.out.println("ActionView: "+ actionView.toString());
-			System.out.println("ActionController: "+ controllerClass);
-			System.out.println("Presenter Frame: "+ actionView.getMainFrame().toString());
-			System.out.println("MochaController not found");
+            throw new ControllerNotFoundException("Could not find controller with class name: " + controllerClass);
 		}
 		
 		// Create the class with or without parameters
@@ -113,7 +109,7 @@ public class MochaActionEvent<C extends MochaView<? extends JComponent>> impleme
 		try {
 			method = controllerClass.getDeclaredMethod(actionName,cls);
 		} catch (NoSuchMethodException | SecurityException e) {
-			e.printStackTrace(); // For debug only
+            throw new MethodNotFoundException("No such method found " + actionName + " for controller class " + controllerClass);
 		}
 	}
 
@@ -127,7 +123,7 @@ public class MochaActionEvent<C extends MochaView<? extends JComponent>> impleme
 			method.invoke(obj, args);
 		} catch (IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {
-			e.printStackTrace();
+            throw new InvalidArgumentException("Invalid arguments passed to method " + method.getName() + ", cannot invoke target.");
 		}
 	}
 	
@@ -150,7 +146,7 @@ public class MochaActionEvent<C extends MochaView<? extends JComponent>> impleme
 	 */
 	private final HashMap<Class<?>, Object> getWrapperTypes()
     {
-        Map<Class<?>, Object> ret = new HashMap<Class<?>, Object>();
+        Map<Class<?>, Object> ret = new HashMap<>();
         ret.put(Boolean.class, Boolean.TYPE);
         ret.put(Character.class, Character.TYPE);
         ret.put(Byte.class, Byte.TYPE);

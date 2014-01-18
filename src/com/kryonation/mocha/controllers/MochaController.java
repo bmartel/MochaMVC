@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
+import com.kryonation.mocha.action.MochaActionEvent;
+import com.kryonation.mocha.interfaces.DataContainer;
+import com.kryonation.mocha.interfaces.DataUpdate;
 import com.kryonation.mocha.models.MochaModel;
 import com.kryonation.mocha.wireframe.MochaFrame;
 
@@ -23,11 +23,11 @@ import com.kryonation.mocha.wireframe.MochaFrame;
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public abstract class MochaController implements PropertyChangeListener {
 	private final MochaFrame frame;
-	protected final Map<String, MochaModel> models = new HashMap<String, MochaModel>();
-	protected final HashMap<String, JComponent> registeredComponents = new HashMap<String, JComponent>();
+	protected final Map<String, MochaModel> models = new HashMap<>();
+	protected final HashMap<String, JComponent> registeredComponents = new HashMap<>();
 	/**
 	 * Registers the presenter frame
-	 * @param MochaFrame
+	 * @param frame
 	 */
 	public MochaController(MochaFrame frame) {
 		this.frame = frame;
@@ -50,7 +50,7 @@ public abstract class MochaController implements PropertyChangeListener {
 	 * Setter for model registrations
 	 * @param model
 	 */
-	protected <C extends MochaModel> void registerModel(String modelName, C model){
+	protected <C extends MochaModel> void bindModel(String modelName, C model){
 		models.put(modelName,model);
 	}
 
@@ -73,25 +73,18 @@ public abstract class MochaController implements PropertyChangeListener {
 		System.out.println("Property which was changed: "+evt.getPropertyName());
 		System.out.println("Component to update: "+ getMainFrame().getParentView(evt.getPropertyName()).getComponentById(evt.getPropertyName()));
 		
-		updateComponent(getMainFrame().getParentView(evt.getPropertyName()).getComponentById(evt.getPropertyName()), evt.getNewValue());
+		updateComponent(getMainFrame().getParentView(evt.getPropertyName()).getUpdateComponentById(evt.getPropertyName()), evt.getNewValue());
 		
 	}
 	
 	/**
-	 * Update the bound component using the best known way to display the data for each element
+	 * Update the bound component using its update implementation
 	 * @param component
-	 * @param newValue
-	 * @return
+	 * @param data
 	 */
-	protected <V extends JComponent>V updateComponent(V component, Object newValue){
-		if(component instanceof JTextField){
-			((JTextField) component).setText(newValue.toString());
-		}else if(component instanceof JTextArea){
-			((JTextArea) component).setText(newValue.toString());
-		}else if(component instanceof JLabel){
-			((JLabel) component).setText(newValue.toString());
-		}
-		return component;
-		
+	protected void updateComponent(DataUpdate component, Object data){
+
+        component.update(data);
+
 	}
 }
